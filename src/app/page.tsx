@@ -1,65 +1,78 @@
-import Image from "next/image";
+import { HeroSection } from "@/features/home/sections/HeroSection";
+import { CategoryGrid } from "@/features/home/sections/CategoryGrid";
+import { ShowroomGallery } from "@/features/home/sections/ShowroomGallery";
+import { FeaturedProducts } from "@/features/home/sections/FeaturedProducts";
+import { PromoSection } from "@/features/home/sections/PromoSection";
+import { WhyChooseUs } from "@/features/home/sections/WhyChooseUs";
+import { BrandMarquee } from "@/features/home/sections/BrandMarquee";
+import { Newsletter } from "@/features/home/sections/Newsletter";
+import { QuoteCTA } from "@/shared/components/common/QuoteCTA";
+import { MAX_WIDTH } from "@/shared/constants/ui";
+import { cn } from "@/lib/utils";
+import { Reveal } from "@/shared/components/common/Reveal";
+import { ShieldCheck, Truck, Headphones, BadgeCheck } from "lucide-react";
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="flex flex-col">
+      <HeroSection />
+      
+      {/* ── Trust Section ── */}
+      <section className="bg-white border-b">
+        <div className={cn("mx-auto px-6 py-12", MAX_WIDTH.CONTAINER)}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[
+              { icon: ShieldCheck, title: "Chính Hãng 100%", desc: "Hoàn tiền 200% nếu phát hiện giả" },
+              { icon: Truck, title: "Vận Chuyển Toàn Quốc", desc: "Miễn phí nội thành với đơn từ 5tr" },
+              { icon: Headphones, title: "Hỗ Trợ 24/7", desc: "Tư vấn kỹ thuật tận tâm, chuyên nghiệp" },
+              { icon: BadgeCheck, title: "Bảo Hành Dài Hạn", desc: "Theo đúng tiêu chuẩn của nhà sản xuất" },
+            ].map((item, idx) => (
+              <Reveal key={item.title} delay={idx * 100}>
+                <div className="flex items-center gap-4">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-brand/5 text-brand">
+                    <item.icon className="h-6 w-6" />
+                  </div>
+                  <div>
+                    <p className="font-bold text-sm">{item.title}</p>
+                    <p className="text-xs text-muted-foreground">{item.desc}</p>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </section>
+
+      <Reveal><CategoryGrid /></Reveal>
+      <Reveal><ShowroomGallery /></Reveal>
+      <Reveal><BrandMarquee /></Reveal>
+      <Reveal><FeaturedProducts /></Reveal>
+      <Reveal><PromoSection /></Reveal>
+      <Reveal><WhyChooseUs /></Reveal>
+      <Reveal><Newsletter /></Reveal>
+
+      {/* ── CTA Banner ── */}
+      <Reveal className="py-20 md:py-32">
+        <div className={cn("mx-auto px-6", MAX_WIDTH.CONTAINER)}>
+          <div className="relative overflow-hidden rounded-[40px] bg-brand p-16 text-white shadow-2xl shadow-brand/20">
+            <div className="absolute top-0 right-0 w-1/2 h-full opacity-10 pointer-events-none">
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--brand-accent)_0%,_transparent_70%)]" />
+            </div>
+            <div className="relative z-10 max-w-3xl space-y-8">
+              <h2 className="text-4xl font-black md:text-6xl leading-tight tracking-tight">
+                Bạn Đang Tìm Giải Pháp <br /> 
+                <span className="text-brand-accent italic">Cho Công Trình</span> Của Mình?
+              </h2>
+              <p className="text-white/60 text-xl font-medium leading-relaxed">
+                Hãy để chuyên gia của Hải Linh tư vấn mẫu mã, kỹ thuật và cung cấp báo giá cạnh tranh nhất cho dự án của bạn.
+              </p>
+              <div className="pt-4">
+                <QuoteCTA variant="hero" />
+              </div>
+            </div>
+          </div>
         </div>
-      </main>
+      </Reveal>
     </div>
   );
 }

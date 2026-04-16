@@ -1,0 +1,71 @@
+import type { Category } from "@/features/category/types";
+import { CATEGORY_SLUGS } from "@/shared/constants/routes";
+
+export const CATEGORIES: Category[] = [
+  {
+    id: "cat-1",
+    name: "Gạch Ốp Lát",
+    slug: CATEGORY_SLUGS.TILES,
+    description: "Gạch ceramic, porcelain, đá tự nhiên cao cấp nhập khẩu từ Ý, Tây Ban Nha, Trung Quốc",
+    icon: "🪨",
+    image: "/images/categories/tiles.jpg",
+    productCount: 342,
+    featured: true,
+    subcategories: [
+      { id: "sub-1-1", name: "Gạch Nền", slug: "gach-nen", parentSlug: CATEGORY_SLUGS.TILES },
+      { id: "sub-1-2", name: "Gạch Tường", slug: "gach-tuong", parentSlug: CATEGORY_SLUGS.TILES },
+      { id: "sub-1-3", name: "Gạch Đá Tự Nhiên", slug: "gach-da-tu-nhien", parentSlug: CATEGORY_SLUGS.TILES },
+      { id: "sub-1-4", name: "Gạch Mosaic", slug: "gach-mosaic", parentSlug: CATEGORY_SLUGS.TILES },
+      { id: "sub-1-5", name: "Gạch Giả Gỗ", slug: "gach-gia-go", parentSlug: CATEGORY_SLUGS.TILES },
+    ],
+  },
+  {
+    id: "cat-2",
+    name: "Thiết Bị Vệ Sinh",
+    slug: CATEGORY_SLUGS.BATHROOM,
+    description: "Sen vòi, bồn tắm, lavabo, bàn cầu cao cấp từ các thương hiệu hàng đầu",
+    icon: "🚿",
+    image: "/images/categories/bathroom.jpg",
+    productCount: 218,
+    featured: true,
+    subcategories: [
+      { id: "sub-2-1", name: "Bồn Cầu", slug: "bon-cau", parentSlug: CATEGORY_SLUGS.BATHROOM },
+      { id: "sub-2-2", name: "Lavabo", slug: "lavabo", parentSlug: CATEGORY_SLUGS.BATHROOM },
+      { id: "sub-2-3", name: "Sen Vòi", slug: "sen-voi", parentSlug: CATEGORY_SLUGS.BATHROOM },
+      { id: "sub-2-4", name: "Bồn Tắm", slug: "bon-tam", parentSlug: CATEGORY_SLUGS.BATHROOM },
+      { id: "sub-2-5", name: "Phụ Kiện Phòng Tắm", slug: "phu-kien-phong-tam", parentSlug: CATEGORY_SLUGS.BATHROOM },
+    ],
+  },
+  {
+    id: "cat-3",
+    name: "Thiết Bị Nhà Bếp",
+    slug: CATEGORY_SLUGS.KITCHEN,
+    description: "Bếp nấu, máy hút mùi, chậu rửa, vòi bếp thương hiệu châu Âu chính hãng",
+    icon: "🍳",
+    image: "/images/categories/kitchen.jpg",
+    productCount: 165,
+    featured: true,
+    subcategories: [
+      { id: "sub-3-1", name: "Bếp Đun", slug: "bep-dun", parentSlug: CATEGORY_SLUGS.KITCHEN },
+      { id: "sub-3-2", name: "Máy Hút Mùi", slug: "may-hut-mui", parentSlug: CATEGORY_SLUGS.KITCHEN },
+      { id: "sub-3-3", name: "Chậu Rửa Bát", slug: "chau-rua-bat", parentSlug: CATEGORY_SLUGS.KITCHEN },
+      { id: "sub-3-4", name: "Vòi Bếp", slug: "voi-bep", parentSlug: CATEGORY_SLUGS.KITCHEN },
+    ],
+  },
+  {
+    id: "cat-4",
+    name: "Vật Liệu Xây Dựng",
+    slug: CATEGORY_SLUGS.HOME_IMPROVEMENT,
+    description: "Sơn, xi măng, cát, đá, thạch cao và vật liệu hoàn thiện nội thất",
+    icon: "🏗️",
+    image: "/images/categories/construction.jpg",
+    productCount: 289,
+    featured: false,
+    subcategories: [
+      { id: "sub-4-1", name: "Sơn Tường", slug: "son-tuong", parentSlug: CATEGORY_SLUGS.HOME_IMPROVEMENT },
+      { id: "sub-4-2", name: "Vật Liệu Trần", slug: "vat-lieu-tran", parentSlug: CATEGORY_SLUGS.HOME_IMPROVEMENT },
+      { id: "sub-4-3", name: "Chống Thấm", slug: "chong-tham", parentSlug: CATEGORY_SLUGS.HOME_IMPROVEMENT },
+      { id: "sub-4-4", name: "Kết Cấu Thép", slug: "ket-cau-thep", parentSlug: CATEGORY_SLUGS.HOME_IMPROVEMENT },
+    ],
+  },
+];
