@@ -3,7 +3,7 @@
 import { useCartStore } from "@/modules/cart";
 import { MAX_WIDTH } from "@/shared/constants/ui";
 import { cn, formatPrice } from "@/lib/utils";
-import { ChevronRight, ShieldCheck, Truck, CreditCard, ArrowLeft } from "lucide-react";
+import { ChevronRight, ShieldCheck, Truck, CreditCard } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -11,15 +11,16 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { ROUTES } from "@/shared/constants/routes";
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 
 export function CheckoutContent() {
-  const [mounted, setMounted] = useState(false);
   const { items, getTotalPrice } = useCartStore();
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  
+  const mounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false
+  );
 
   if (!mounted) return null;
 

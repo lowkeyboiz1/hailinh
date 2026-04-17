@@ -8,16 +8,16 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ROUTES } from "@/shared/constants/routes";
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 import { CONTACT } from "@/shared/constants/contact";
 
 export function CartContent() {
-  const [mounted, setMounted] = useState(false);
+  const mounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false
+  );
   const { items, updateQuantity, removeItem, getTotalPrice, getTotalItems } = useCartStore();
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   if (!mounted) return null;
 

@@ -1,4 +1,4 @@
-import { CartContent } from "./CartContent";
+import { CartContent } from "@/modules/cart/pages/CartContent";
 import { Metadata } from "next";
 
 /**

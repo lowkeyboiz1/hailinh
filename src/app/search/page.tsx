@@ -2,11 +2,9 @@
  * Rendering Strategy: CSR (Client Side Rendering) with Suspense
  */
 import { Suspense } from "react";
-import { PRODUCTS } from "@/modules/product/data/products";
-import { ProductCard } from "@/modules/product/components/ProductCard";
 import { MAX_WIDTH } from "@/shared/constants/ui";
 import { cn } from "@/lib/utils";
-import { SearchResultsContent } from "./components/SearchResultsContent";
+import { SearchResultsContent } from "@/modules/search/pages/SearchResultsContent";
 
 export const metadata = {
   title: "Kết quả tìm kiếm",

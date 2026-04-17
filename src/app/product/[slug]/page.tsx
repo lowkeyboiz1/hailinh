@@ -1,4 +1,4 @@
-import { ProductDetailContent } from "./ProductDetailContent";
+import { ProductDetailContent } from "@/modules/product/pages/ProductDetailContent";
 import { PRODUCTS } from "@/modules/product/data/products";
 import { CATEGORIES } from "@/modules/category/data/categories";
 import { Metadata } from "next";

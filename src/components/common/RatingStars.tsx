@@ -1,20 +1,25 @@
-"use client";
+"use client"
 
-import { Star } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { Star } from "lucide-react"
+import { cn } from "@/lib/utils"
 
 interface RatingStarsProps {
-  rating: number;
-  reviewCount?: number;
-  size?: "sm" | "md";
-  className?: string;
+  rating: number
+  reviewCount?: number
+  size?: "sm" | "md"
+  className?: string
 }
 
-const MAX_RATING = 5;
+const MAX_RATING = 5
 
-export function RatingStars({ rating, reviewCount, size = "sm", className }: RatingStarsProps) {
-  const starSize = size === "sm" ? "h-3 w-3" : "h-4 w-4";
-  const textSize = size === "sm" ? "text-xs" : "text-sm";
+export function RatingStars({
+  rating,
+  reviewCount,
+  size = "sm",
+  className,
+}: RatingStarsProps) {
+  const starSize = size === "sm" ? "h-3 w-3" : "h-4 w-4"
+  const textSize = size === "sm" ? "text-xs" : "text-sm"
 
   return (
     <div className={cn("flex items-center gap-1", className)}>
@@ -24,7 +29,9 @@ export function RatingStars({ rating, reviewCount, size = "sm", className }: Rat
             key={i}
             className={cn(
               starSize,
-              i < Math.floor(rating) ? "fill-amber-400 text-amber-400" : "fill-muted text-muted"
+              i < Math.floor(rating)
+                ? "fill-amber-400 text-amber-400"
+                : "fill-muted text-muted",
             )}
           />
         ))}
@@ -34,5 +41,5 @@ export function RatingStars({ rating, reviewCount, size = "sm", className }: Rat
         {reviewCount != null && <span className="ml-1">({reviewCount})</span>}
       </span>
     </div>
-  );
+  )
 }

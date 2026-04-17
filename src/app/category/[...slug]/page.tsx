@@ -1,4 +1,4 @@
-import { CategoryContent } from "./CategoryContent";
+import { CategoryContent } from "@/modules/category/pages/CategoryContent";
 import { CATEGORIES } from "@/modules/category/data/categories";
 import { Metadata } from "next";
 

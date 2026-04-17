@@ -21,7 +21,7 @@ export function SearchResultsContent() {
         <div>
           <h1 className="text-3xl font-black flex items-center gap-3">
             <Search className="h-8 w-8 text-brand" />
-            Tìm kiếm: <span className="text-brand">"{query}"</span>
+            Tìm kiếm: <span className="text-brand">&quot;{query}&quot;</span>
           </h1>
           <p className="text-muted-foreground mt-2 font-medium">
             Tìm thấy {results.length} sản phẩm phù hợp

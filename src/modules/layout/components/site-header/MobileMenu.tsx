@@ -7,7 +7,6 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { SITE } from "@/shared/constants/ui";
 import { CONTACT } from "@/shared/constants/contact";
-import { CartButton } from "@/modules/cart/components/CartButton";
 
 interface NavItem {
   label: string;

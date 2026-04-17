@@ -1,8 +1,7 @@
-import { CONTACT, SOCIAL_LINKS } from "@/shared/constants/contact";
-import { cn } from "@/lib/utils";
+import { CONTACT } from "@/shared/constants/contact";
 import { CATEGORY_SLUGS, ROUTES } from "@/shared/constants/routes";
 import { SITE } from "@/shared/constants/ui";
-import { Mail, MapPin, Phone, Globe, Video, Camera, Clock } from "lucide-react";
+import { MapPin, Phone, Clock } from "lucide-react";
 import Link from "next/link";
 
 const FOOTER_CATEGORIES = [

@@ -1,4 +1,4 @@
-import { CheckoutContent } from "./CheckoutContent";
+import { CheckoutContent } from "@/modules/checkout/pages/CheckoutContent";
 import { Metadata } from "next";
 
 /**

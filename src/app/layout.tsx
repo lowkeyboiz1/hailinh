@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { SiteHeader } from "@/modules/layout/components/SiteHeader";
-import { SiteFooter } from "@/modules/layout/components/SiteFooter";
+import { SiteHeader, SiteFooter } from "@/modules/layout/components";
 import { QuoteCTA } from "@/components/common/QuoteCTA";
 import { SITE } from "@/shared/constants/ui";
 
