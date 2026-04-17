@@ -1,6 +1,9 @@
+/**
+ * Rendering Strategy: CSR (Client Side Rendering) with Suspense
+ */
 import { Suspense } from "react";
-import { PRODUCTS } from "@/features/product/data/products";
-import { ProductCard } from "@/features/product/components/ProductCard";
+import { PRODUCTS } from "@/modules/product/data/products";
+import { ProductCard } from "@/modules/product/components/ProductCard";
 import { MAX_WIDTH } from "@/shared/constants/ui";
 import { cn } from "@/lib/utils";
 import { SearchResultsContent } from "./components/SearchResultsContent";

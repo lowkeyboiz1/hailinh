@@ -1,4 +1,4 @@
-import { CATEGORIES } from "@/features/category/data/categories";
+import { CATEGORIES } from "@/modules/category/data/categories";
 import { MAX_WIDTH } from "@/shared/constants/ui";
 import { cn } from "@/lib/utils";
 import Link from "next/link";

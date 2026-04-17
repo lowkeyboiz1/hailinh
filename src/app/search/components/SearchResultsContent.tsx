@@ -1,8 +1,8 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { PRODUCTS } from "@/features/product/data/products";
-import { ProductCard } from "@/features/product/components/ProductCard";
+import { PRODUCTS } from "@/modules/product/data/products";
+import { ProductCard } from "@/modules/product/components/ProductCard";
 import { Search } from "lucide-react";
 
 export function SearchResultsContent() {

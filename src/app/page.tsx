@@ -1,15 +1,19 @@
-import { HeroSection } from "@/features/home/sections/HeroSection";
-import { CategoryGrid } from "@/features/home/sections/CategoryGrid";
-import { ShowroomGallery } from "@/features/home/sections/ShowroomGallery";
-import { FeaturedProducts } from "@/features/home/sections/FeaturedProducts";
-import { PromoSection } from "@/features/home/sections/PromoSection";
-import { WhyChooseUs } from "@/features/home/sections/WhyChooseUs";
-import { BrandMarquee } from "@/features/home/sections/BrandMarquee";
-import { Newsletter } from "@/features/home/sections/Newsletter";
-import { QuoteCTA } from "@/shared/components/common/QuoteCTA";
+/**
+ * Rendering Strategy: SSG (Static Site Generation)
+ * Data is static and updated via revalidation if needed.
+ */
+import { HeroSection } from "@/modules/home/sections/HeroSection";
+import { CategoryGrid } from "@/modules/home/sections/CategoryGrid";
+import { ShowroomGallery } from "@/modules/home/sections/ShowroomGallery";
+import { FeaturedProducts } from "@/modules/home/sections/FeaturedProducts";
+import { PromoSection } from "@/modules/home/sections/PromoSection";
+import { WhyChooseUs } from "@/modules/home/sections/WhyChooseUs";
+import { BrandMarquee } from "@/modules/home/sections/BrandMarquee";
+import { Newsletter } from "@/modules/home/sections/Newsletter";
+import { QuoteCTA } from "@/components/common/QuoteCTA";
 import { MAX_WIDTH } from "@/shared/constants/ui";
 import { cn } from "@/lib/utils";
-import { Reveal } from "@/shared/components/common/Reveal";
+import { Reveal } from "@/components/common/Reveal";
 import { ShieldCheck, Truck, Headphones, BadgeCheck } from "lucide-react";
 
 export default function HomePage() {

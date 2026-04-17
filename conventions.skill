@@ -1,0 +1,223 @@
+author: Antigravity
+version: 1.3.0
+
+01
+Module-based Architecture
+Cấu trúc chuẩn — src/modules/<module-name>/
+actions/
+Server actions ('use server')
+apis/
+Endpoint definitions & REST services dùng mainAxiosClient
+components/
+Components riêng của module; chia nhỏ thành sub-folder nếu phức tạp
+constants/
+Chứa queryKeys.ts và hằng số local
+hooks/apis/
+React Query hooks (useQuery, useMutation)
+hooks/
+Custom hooks nghiệp vụ và useStore.ts nếu cần store riêng
+pages/
+Component trang chính; export default để dùng trong src/app/
+types/
+Interfaces, types, enums đặc thù của module
+utils/
+Helper functions, formatters dùng riêng trong module
+Mỗi thư mục phải có index.ts barrel export để alias imports hoạt động đúng.
+
+02
+React Query Integration
+Query Keys
+Định nghĩa tập trung trong constants/queryKeys.ts của module
+Dùng object factory pattern — ví dụ: supplierQueryKeys.list(), supplierQueryKeys.detail(id)
+Hooks Placement
+Module-specific: src/modules/<module>/hooks/apis/
+Global/Shared: src/services/tanstack-query/hooks/
+Patterns
+useQuery để fetch dữ liệu; useMutation cho POST / PUT / DELETE
+Wrap toàn bộ API call trong queryFn hoặc mutationFn — không gọi Axios trực tiếp trong component
+Xử lý lỗi tập trung trong onError callback của useMutation
+
+03
+Zustand State Management
+Chỉ dùng Zustand cho Client State thực sự toàn cục (Auth, UI config, Chat). Dữ liệu server-side → dùng React Query.
+Placement & Naming
+Store dùng chung: src/zustand/
+Store đặc thù module: src/modules/<module>/hooks/useStore.ts
+Naming bắt đầu bằng use...Store — ví dụ: useAuthStore, useChatStore
+Middleware & Selectors
+Dùng persist middleware cho state cần giữ sau reload (tokens, preferences)
+Dùng devtools middleware trong môi trường development
+Bắt buộc dùng selector để tránh re-render thừa — ví dụ: useAuthStore(state => state.user)
+Nếu store phức tạp (>5 states), áp dụng slice pattern: tách thành các slice độc lập rồi combine
+
+04
+Coding Styles & Rules
+File & Folder Naming
+Component files: PascalCase — ví dụ: SupplierTable.tsx
+Hook, util, service files: camelCase — ví dụ: useSupplierList.ts
+Folder names: kebab-case — ví dụ: supplier-management/
+Imports & Type Safety
+Luôn dùng alias imports; tuyệt đối không dùng path tương đối ../../
+Không hardcode string/magic numbers — dùng enum hoặc constants
+Bắt buộc định nghĩa Interface/Type cho Request Payload và Response Data
+Dùng ApiResponse<T> hoặc ApiBaseResponse cho mọi response
+Cấm dùng any — nếu thực sự cần, phải có comment lý do rõ ràng
+
+05
+Rendering Strategy — SSR / SSG / ISR / CSR
+new
+Next.js App Router mặc định là Server Component. Chỉ thêm 'use client' khi thực sự cần tương tác phía client (state, event, browser API).
+Decision Table
+Strategy	Khi nào dùng	Ví dụ trong dự án
+SSR	Data thay đổi theo từng request; cần auth context hoặc cookie; nội dung cá nhân hoá	Dashboard, trang order detail, trang user profile
+SSG	Data tĩnh hoặc thay đổi rất ít; không phụ thuộc user session; cần tốc độ load tối đa	Trang chính sách, landing page, trang giới thiệu sản phẩm
+ISR	Data thay đổi định kỳ nhưng không cần real-time; muốn lợi ích của SSG nhưng vẫn refresh được	Danh sách danh mục sản phẩm, bảng giá, báo cáo tổng hợp
+CSR	Tính năng chỉ chạy client-side; không cần SEO; real-time interaction nặng	Charts tương tác, drag-and-drop, chat widget
+
+SSR — Server Component với fetch
+// app/orders/[id]/page.tsx
+export default async function OrderDetailPage({ params }) {
+  const order = await fetchOrder(params.id) // fetch on every request
+  return <OrderDetail order={order} />
+}
+Fetch data trực tiếp trong Server Component — không cần useEffect hay React Query cho initial load
+Dùng cookies() / headers() từ next/headers để đọc auth token phía server
+Kết hợp với React Query prefetchQuery + HydrationBoundary để hydrate xuống client nếu cần refetch sau đó
+
+SSG — generateStaticParams
+// app/categories/[slug]/page.tsx
+export async function generateStaticParams() {
+  const categories = await fetchAllCategories()
+  return categories.map(c => ({ slug: c.slug }))
+}
+
+export const dynamic = 'force-static'
+Dùng generateStaticParams cho các route có tập params hữu hạn và ổn định
+Set export const dynamic = 'force-static' để đảm bảo page không bị server-render lại
+
+ISR — revalidate
+// Revalidate theo thời gian
+export const revalidate = 3600 // re-generate sau 1 giờ
+
+// Revalidate theo tag (on-demand)
+import { revalidateTag } from 'next/cache'
+await revalidateTag('product-catalog')
+
+// Gán tag khi fetch
+fetch(url, { next: { tags: ['product-catalog'] } })
+Ưu tiên revalidate theo tag thay vì theo thời gian — linh hoạt hơn khi data thay đổi đột xuất
+Gọi revalidateTag trong Server Action sau khi mutation thành công
+
+Quy tắc chung
+Không dùng 'use client' ở layout hoặc page component — đẩy client logic xuống leaf component
+Tránh dùng export const dynamic = 'force-dynamic' tràn lan — chỉ dùng khi thực sự cần SSR mọi request
+Mỗi trang phải xác định rõ rendering strategy trong comment đầu file
+Không fetch data trong Client Component nếu data đó có thể prefetch từ Server Component
+
+06
+SEO — Next.js Metadata API
+new
+Static Metadata
+// app/layout.tsx — metadata gốc toàn site
+export const metadata: Metadata = {
+  metadataBase: new URL('https://lia-erp.com'),
+  title: { default: 'LIA ERP', template: '%s | LIA ERP' },
+  description: '...',
+  openGraph: { type: 'website', locale: 'vi_VN' },
+  robots: { index: true, follow: true },
+}
+Dynamic Metadata
+// app/orders/[id]/page.tsx
+export async function generateMetadata({ params }): Promise<Metadata> {
+  const order = await fetchOrder(params.id)
+  return {
+    title: `Đơn hàng #${order.code}`,
+    description: order.summary,
+    openGraph: {
+      title: `Đơn hàng #${order.code}`,
+      images: [{ url: order.thumbnailUrl }],
+    },
+  }
+}
+Bắt buộc dùng generateMetadata cho mọi dynamic route — không để title mặc định
+Luôn khai báo metadataBase ở root layout để OpenGraph image URL resolve đúng
+Dùng title.template ở root layout — các trang con chỉ cần set title ngắn gọn
+
+Sitemap & Robots
+// app/sitemap.ts
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const products = await fetchAllProducts()
+  return [
+    { url: '/', lastModified: new Date(), changeFrequency: 'monthly' },
+    ...products.map(p => ({
+      url: `/products/${p.slug}`,
+      lastModified: p.updatedAt,
+      changeFrequency: 'weekly' as const,
+    }))
+  ]
+}
+
+// app/robots.ts
+export default function robots(): MetadataRoute.Robots {
+  return {
+    rules: [{ userAgent: '*', allow: '/', disallow: ['/admin/', '/api/'] }],
+    sitemap: 'https://lia-erp.com/sitemap.xml',
+  }
+}
+Bắt buộc có app/sitemap.ts và app/robots.ts — Next.js tự serve tại /sitemap.xml và /robots.txt
+Sitemap phải dynamic — include các URL từ database, không hardcode
+Disallow các route nội bộ: /admin/, /api/, /dashboard/
+
+Structured Data (JSON-LD)
+// Nhúng JSON-LD vào Server Component
+<script
+  type="application/ld+json"
+  dangerouslySetInnerHTML={{ __html: JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    description: product.description,
+  })}}
+/>
+Dùng JSON-LD cho các trang product, article — giúp Google hiểu rich results
+Nhúng trong Server Component — không cần 'use client'
+
+Semantic HTML & Accessibility
+Dùng đúng semantic tags: h1–h6, section, main, article, nav, aside
+Mỗi trang chỉ có một h1; heading phải theo thứ tự không nhảy cấp
+Images bắt buộc dùng next/image với alt text; icons trang trí dùng aria-hidden="true"
+Dùng next/image với priority for LCP image (ảnh đầu tiên hiển thị)
+Dùng next/font để load font — tránh layout shift (CLS)
+Trang nội bộ (dashboard, admin) không cần SEO — set robots: { index: false } ở layout tương ứng để tránh index nhầm.
+
+07
+Error Handling & Notifications
+API Error Handling
+Lỗi từ mutation xử lý trong onError callback — không dùng try/catch rải trong component
+Lỗi global (401, 403, 5xx) xử lý tập trung tại Axios interceptor trong configs/axios
+Dùng error.tsx và not-found.tsx của Next.js App Router để handle lỗi trang
+Không để lỗi im lặng — mọi lỗi phải được log hoặc hiển thị phản hồi cho người dùng
+Toast / Notification
+Dùng một notification library duy nhất trong toàn dự án
+Gọi toast từ hook hoặc callback — không gọi trực tiếp trong render function
+Thông báo thành công sau onSuccess; thông báo lỗi sau onError
+
+08
+Git Workflow
+Branching & Commit
+feat/, fix/, refactor/, chore/ theo sau là task ID hoặc mô tả ngắn
+Tuân thủ Conventional Commits — ví dụ: feat(supplier): add supplier list pagination
+Pre-commit Checklist
+Xóa console.log, debugger và comments thừa
+Không commit code có lỗi TypeScript hoặc ESLint
+Không commit file .env hoặc sensitive data
+
+09
+Components Rules
+Reuse Priority & Size
+Reuse > Extend > Wrap > Create — luôn kiểm tra src/components/ trước
+Một component chỉ làm một việc — JSX vượt ~150 dòng thì cân nhắc tách nhỏ
+Props Naming
+Event handlers: prefix on — ví dụ: onSubmit, onChange
+Boolean props: prefix is / has — ví dụ: isLoading, hasError
+Không dùng prop tên chung chung như data, info nếu có thể đặt tên cụ thể hơn

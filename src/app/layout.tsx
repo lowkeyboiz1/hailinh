@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { SiteHeader } from "@/features/layout/components/SiteHeader";
-import { SiteFooter } from "@/features/layout/components/SiteFooter";
-import { QuoteCTA } from "@/shared/components/common/QuoteCTA";
+import { SiteHeader } from "@/modules/layout/components/SiteHeader";
+import { SiteFooter } from "@/modules/layout/components/SiteFooter";
+import { QuoteCTA } from "@/components/common/QuoteCTA";
 import { SITE } from "@/shared/constants/ui";
 
 const inter = Inter({
@@ -13,11 +13,21 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://hailinh.com.vn"),
   title: {
     default: `${SITE.NAME} - ${SITE.TAGLINE}`,
     template: `%s | ${SITE.NAME}`,
   },
   description: SITE.DESCRIPTION,
+  openGraph: {
+    type: "website",
+    locale: "vi_VN",
+    siteName: SITE.NAME,
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({

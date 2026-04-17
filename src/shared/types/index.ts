@@ -1,2 +1,2 @@
-export type { Product, ProductVariant, ProductImage } from "@/features/product/types";
-export type { Category } from "@/features/category/types";
+export type { Product, ProductVariant, ProductImage } from "@/modules/product/types";
+export type { Category } from "@/modules/category/types";

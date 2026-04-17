@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Category } from "@/features/category/types";
+import { Category } from "@/modules/category/types";
 import { ROUTES } from "@/shared/constants/routes";
 import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
